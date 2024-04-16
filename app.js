@@ -15,10 +15,28 @@ function getList() {
   });
 }
 
-// TODO: Handle the resolved or rejected states of the promise
+// select the paragraph with id="error" and assign it to a varaiable
+let errorParagraph = document.getElementById("error");
 
-// TODO: If the promise resolves with the list of hobbits
-// Render the list of hobbits as list items within the unordered list with id="list" (check the index.html file)
+// select the unordered list with id="list" and assign it to a variable
+let listElement = document.getElementById("list");
 
-// TODO: If the promise rejects with the failure object
-// Display the failure message in the paragraph element with id="error" (check index.html file)
+// call getList function
+getList()
+  // from the result, call the then promise consumer method and pass in a callback function
+  .then(result => {
+    // iterate through the resolved list of hobbies
+    result.forEach(hobbit => {
+      // create a li for each hobbit
+      let li = document.createElement("li");
+      li.textContent = hobbit;
+      // append the li to the ul from the DOM
+      listElement.appendChild(li);
+    });
+  })
+
+  // from the result of the then promise consumer method, chain a catch method consumer and pass in a callback function
+  .catch(error => {
+    //display the resolved failure object's message property as the text content of the error paragraph
+    errorParagraph.textContent = error.message;
+  });
